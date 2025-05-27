@@ -1,28 +1,33 @@
 using EzySlice;
 using UnityEngine;
+using DG.Tweening;
 
 public class GemCutter : MonoBehaviour
 {
     public Material cutMaterial;
     public float pushForce = 2f;
-    public float smallPieceThreshold = 0.5f;
 
     public void Cut(GameObject gem, Vector3 point, Vector3 normal)
     {
         SlicedHull hull = gem.Slice(point, normal);
-        if (hull != null)
-        {
-            GameObject upper = hull.CreateUpperHull(gem, cutMaterial);
-            GameObject lower = hull.CreateLowerHull(gem, cutMaterial);
+        if (hull == null) return;
 
-            SetupPiece(upper, normal);
-            SetupPiece(lower, -normal);
+        GameObject upper = hull.CreateUpperHull(gem, cutMaterial);
+        GameObject lower = hull.CreateLowerHull(gem, cutMaterial);
 
-            Destroy(gem);
-        }
+        float upperSize = CalculateSize(upper);
+        float lowerSize = CalculateSize(lower);
+
+        GameObject smallPiece = upperSize < lowerSize ? upper : lower;
+        GameObject largePiece = upperSize < lowerSize ? lower : upper;
+
+        SetupPiece(largePiece, normal);
+        SetupPiece(smallPiece, -normal, true);
+
+        Destroy(gem);
     }
 
-    void SetupPiece(GameObject piece, Vector3 forceDir)
+    void SetupPiece(GameObject piece, Vector3 forceDir, bool isSmall = false)
     {
         piece.transform.position += forceDir * 0.01f;
 
@@ -32,17 +37,19 @@ public class GemCutter : MonoBehaviour
         var rb = piece.AddComponent<Rigidbody>();
         rb.mass = 0.1f;
 
-        float size = CalculateSize(piece);
-        if (size < smallPieceThreshold)
+        if (isSmall)
         {
-            rb.AddForce(forceDir * pushForce + Random.insideUnitSphere * 0.1f, ForceMode.Impulse);
+            rb.AddForce(forceDir * pushForce, ForceMode.Impulse);
+
+            piece.transform.DOScale(Vector3.zero, 1f)
+                .SetEase(Ease.InBack)
+                .OnComplete(() => piece.SetActive(false));
         }
         else
         {
             rb.isKinematic = true;
+            piece.tag = "Gem";
         }
-
-        piece.tag = "Gem";
     }
 
     float CalculateSize(GameObject obj)

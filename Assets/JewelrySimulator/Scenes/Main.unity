@@ -504,6 +504,7 @@ GameObject:
   - component: {fileID: 770329769}
   - component: {fileID: 770329771}
   - component: {fileID: 770329770}
+  - component: {fileID: 770329772}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -568,6 +569,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 770329768}
   m_CullTransparentMesh: 1
+--- !u!225 &770329772
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770329768}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &846691578
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,8 +1001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutMaterial: {fileID: 2100000, guid: 76b8d97d62ce87f4e8f97feb983a46f1, type: 2}
-  pushForce: 0.15
-  smallPieceThreshold: 3
+  pushForce: 0.3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

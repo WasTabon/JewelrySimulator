@@ -1,4 +1,6 @@
 using UnityEngine;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class SwipeCutter : MonoBehaviour
 {
@@ -6,67 +8,69 @@ public class SwipeCutter : MonoBehaviour
     public Canvas canvas;
     public GemCutter cutter;
 
-    private Vector2 screenSwipeStart;
-    private Vector2 screenSwipeEnd;
-    private bool isSwiping = false;
+    Vector2 swipeStart;
+    Vector2 swipeEnd;
+    bool isSwiping;
+    CanvasGroup swipeGroup;
+
+    void Start()
+    {
+        swipeGroup = swipeLine.GetComponent<CanvasGroup>();
+        swipeLine.gameObject.SetActive(false);
+    }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             isSwiping = true;
-            screenSwipeStart = Input.mousePosition;
+            swipeStart = Input.mousePosition;
 
             swipeLine.gameObject.SetActive(true);
+            swipeLine.localScale = Vector3.zero;
+            swipeGroup.alpha = 0f;
+
+            swipeLine.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+            swipeGroup.DOFade(1f, 0.2f);
         }
         else if (Input.GetMouseButton(0) && isSwiping)
         {
-            screenSwipeEnd = Input.mousePosition;
-
-            // Преобразуем screen → local для отрисовки в UI
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
-                screenSwipeStart,
-                canvas.worldCamera,
-                out Vector2 localStart
-            );
+            swipeEnd = Input.mousePosition;
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
-                screenSwipeEnd,
-                canvas.worldCamera,
-                out Vector2 localEnd
-            );
+                canvas.transform as RectTransform, swipeStart, canvas.worldCamera, out Vector2 localStart);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.transform as RectTransform, swipeEnd, canvas.worldCamera, out Vector2 localEnd);
 
             Vector2 dir = localEnd - localStart;
-            float length = dir.magnitude;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-            swipeLine.sizeDelta = new Vector2(length, 5); // 5 — толщина
+            swipeLine.sizeDelta = new Vector2(dir.magnitude, 5f);
             swipeLine.anchoredPosition = localStart + dir * 0.5f;
-            swipeLine.localRotation = Quaternion.Euler(0, 0, angle);
+            swipeLine.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         }
         else if (Input.GetMouseButtonUp(0) && isSwiping)
         {
             isSwiping = false;
-            swipeLine.gameObject.SetActive(false);
+            
+            swipeLine.DOPunchScale(Vector3.one * 0.2f, 0.15f, 8, 1f);
 
-            // Возьмём первый попавшийся объект с тегом Gem
+            swipeGroup.DOFade(0f, 0.2f).OnComplete(() =>
+            {
+                swipeLine.gameObject.SetActive(false);
+            });
+
             GameObject referenceGem = GameObject.FindWithTag("Gem");
-            if (referenceGem == null) return;
+            if (!referenceGem) return;
 
-            Vector3 planeOrigin = referenceGem.transform.position;
-            Vector3 planeNormal = Vector3.up; // или direction камеры, если объект вертикальный
+            Vector3 origin = referenceGem.transform.position;
+            Vector3 normal = Camera.main.transform.forward;
 
-            Vector3 worldStart = GetWorldPoint(screenSwipeStart, planeOrigin, planeNormal);
-            Vector3 worldEnd = GetWorldPoint(screenSwipeEnd, planeOrigin, planeNormal);
-
+            Vector3 worldStart = GetWorldPoint(swipeStart, origin, normal);
+            Vector3 worldEnd = GetWorldPoint(swipeEnd, origin, normal);
             Vector3 cutNormal = Vector3.Cross(worldEnd - worldStart, Camera.main.transform.forward).normalized;
             Vector3 cutCenter = (worldStart + worldEnd) * 0.5f;
 
             Plane cutPlane = new Plane(cutNormal, cutCenter);
-            GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
-            foreach (var gem in gems)
+            foreach (var gem in GameObject.FindGameObjectsWithTag("Gem"))
             {
                 if (cutPlane.GetDistanceToPoint(gem.transform.position) < 0.5f)
                 {
@@ -79,11 +83,8 @@ public class SwipeCutter : MonoBehaviour
     Vector3 GetWorldPoint(Vector2 screenPos, Vector3 planeOrigin, Vector3 planeNormal)
     {
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        Plane plane = new Plane(planeNormal, planeOrigin);
-        if (plane.Raycast(ray, out float enter))
-        {
-            return ray.GetPoint(enter);
-        }
-        return Vector3.zero;
+        return new Plane(planeNormal, planeOrigin).Raycast(ray, out float enter)
+            ? ray.GetPoint(enter)
+            : Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10f));
     }
 }
