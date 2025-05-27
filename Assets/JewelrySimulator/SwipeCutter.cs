@@ -21,6 +21,16 @@ public class SwipeCutter : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject gem = GameObject.FindWithTag("Gem");
+            if (gem != null)
+            {
+                Vector3 center = gem.GetComponent<Renderer>().bounds.center;
+                cutter.Cut(gem, center, Vector3.up);
+            }
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
             isSwiping = true;
@@ -50,9 +60,8 @@ public class SwipeCutter : MonoBehaviour
         else if (Input.GetMouseButtonUp(0) && isSwiping)
         {
             isSwiping = false;
-            
-            swipeLine.DOPunchScale(Vector3.one * 0.2f, 0.15f, 8, 1f);
 
+            swipeLine.DOPunchScale(Vector3.one * 0.2f, 0.15f, 8, 1f);
             swipeGroup.DOFade(0f, 0.2f).OnComplete(() =>
             {
                 swipeLine.gameObject.SetActive(false);
@@ -61,25 +70,64 @@ public class SwipeCutter : MonoBehaviour
             GameObject referenceGem = GameObject.FindWithTag("Gem");
             if (!referenceGem) return;
 
-            Vector3 origin = referenceGem.transform.position;
-            Vector3 normal = Camera.main.transform.forward;
-
-            Vector3 worldStart = GetWorldPoint(swipeStart, origin, normal);
-            Vector3 worldEnd = GetWorldPoint(swipeEnd, origin, normal);
-            Vector3 cutNormal = Vector3.Cross(worldEnd - worldStart, Camera.main.transform.forward).normalized;
+            float gemY = referenceGem.GetComponent<Renderer>().bounds.center.y;
+            Vector3 worldStart = ScreenToWorldAtHeight(swipeStart, gemY);
+            Vector3 worldEnd = ScreenToWorldAtHeight(swipeEnd, gemY);
+            
+            Vector3 swipeMid = (worldStart + worldEnd) * 0.5f;
+            Vector3 swipeDir = (worldEnd - worldStart);
+            swipeDir.y = 0f; // обнуляем высоту, чтобы вектор был в XZ плоскости
+            swipeDir.Normalize();
+            
             Vector3 cutCenter = (worldStart + worldEnd) * 0.5f;
+            Vector3 cutNormal = new Vector3(-swipeDir.z, 0f, swipeDir.x);
 
-            Plane cutPlane = new Plane(cutNormal, cutCenter);
+            GameObject closestGem = null;
+            float closestDistance = float.MaxValue;
+
             foreach (var gem in GameObject.FindGameObjectsWithTag("Gem"))
             {
-                if (cutPlane.GetDistanceToPoint(gem.transform.position) < 0.5f)
+                Vector3 gemPos = gem.GetComponent<Renderer>().bounds.center;
+                float dist = Vector3.Distance(gemPos, swipeMid);
+                if (dist < closestDistance)
                 {
-                    cutter.Cut(gem, cutCenter, cutNormal);
+                    closestDistance = dist;
+                    closestGem = gem;
                 }
             }
+
+            if (closestGem != null && closestDistance < 1f)
+            {
+                Debug.Log("Cut");
+                cutter.Cut(closestGem, swipeMid, cutNormal);
+            }
+            else
+            {
+                Debug.Log("Dont cut");
+                Debug.Log($"Closest gem: {closestGem.gameObject.name} distance < 0.5f: {closestDistance < 0.5f}");
+            }
+            
+            Debug.Log($"Gem Y: {gemY}, worldStart Y: {worldStart.y}, worldEnd Y: {worldEnd.y}");
+            Debug.DrawLine(worldStart, worldEnd, Color.red, 2f);
+            Debug.DrawRay(swipeMid, Vector3.up * 2f, Color.green, 2f);
         }
+
     }
 
+    Vector3 ScreenToWorldAtHeight(Vector2 screenPos, float heightY)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        Plane plane = new Plane(Vector3.up, new Vector3(0f, heightY, 0f));
+        return plane.Raycast(ray, out float enter) ? ray.GetPoint(enter) : Vector3.zero;
+    }
+    
+    Vector3 ScreenToWorldFlat(Vector2 screenPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        Plane ground = new Plane(Vector3.up, Vector3.zero); // плоскость XZ
+        return ground.Raycast(ray, out float enter) ? ray.GetPoint(enter) : Vector3.zero;
+    }
+    
     Vector3 GetWorldPoint(Vector2 screenPos, Vector3 planeOrigin, Vector3 planeNormal)
     {
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
