@@ -5,7 +5,7 @@ public class GemCutter : MonoBehaviour
 {
     public Material cutMaterial;
     public float pushForce = 2f;
-    public float smallPieceThreshold = 0.5f; // Размер куска, который считаем мелким
+    public float smallPieceThreshold = 0.5f;
 
     public void Cut(GameObject gem, Vector3 point, Vector3 normal)
     {
@@ -39,7 +39,7 @@ public class GemCutter : MonoBehaviour
         }
         else
         {
-            rb.isKinematic = true; // Крупные куски остаются на месте
+            rb.isKinematic = true;
         }
 
         piece.tag = "Gem";
