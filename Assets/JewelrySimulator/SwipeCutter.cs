@@ -98,16 +98,8 @@ public class SwipeCutter : MonoBehaviour
 
             if (closestGem != null && closestDistance < 1f)
             {
-                Debug.Log("Cut");
                 cutter.Cut(closestGem, swipeMid, cutNormal);
             }
-            else
-            {
-                Debug.Log("Dont cut");
-                Debug.Log($"Closest gem: {closestGem.gameObject.name} distance < 0.5f: {closestDistance < 0.5f}");
-            }
-            
-            Debug.Log($"Gem Y: {gemY}, worldStart Y: {worldStart.y}, worldEnd Y: {worldEnd.y}");
             Debug.DrawLine(worldStart, worldEnd, Color.red, 2f);
             Debug.DrawRay(swipeMid, Vector3.up * 2f, Color.green, 2f);
         }

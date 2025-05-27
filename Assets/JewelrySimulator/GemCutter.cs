@@ -27,7 +27,22 @@ public class GemCutter : MonoBehaviour
 
         SetupPiece(matchingPiece, normal);
         SetupPiece(otherPiece, -normal, true);
+        
+        float lowerScore = GetOverlapScore(lower);
+        
+        Debug.Log($"Lower Score: {lowerScore}");
 
+        float threshold = 0.75f;
+
+        if (lowerScore >= threshold)
+        {
+            Debug.Log("Вырезана нужная форма!");
+        }
+        else
+        {
+            Debug.Log("Форма не совпадает");
+        }
+        
         Destroy(gem);
     }
 
@@ -37,6 +52,7 @@ public class GemCutter : MonoBehaviour
 
         var col = piece.AddComponent<MeshCollider>();
         col.convex = true;
+        col.isTrigger = true;
 
         var rb = piece.AddComponent<Rigidbody>();
         rb.mass = 0.1f;
@@ -52,6 +68,7 @@ public class GemCutter : MonoBehaviour
         else
         {
             rb.isKinematic = true;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
             piece.tag = "Gem";
         }
     }
@@ -62,30 +79,29 @@ public class GemCutter : MonoBehaviour
         return bounds.size.magnitude;
     }
     
-    float GetOverlapScore(GameObject piece)
+    float GetOverlapScore(GameObject piece,float maxDistance = 0.5f)
     {
-        // Добавим временно MeshCollider для пересечения
-        MeshCollider pieceCollider = piece.AddComponent<MeshCollider>();
-        pieceCollider.convex = false;
-
         MeshCollider maskCollider = targetShapeMask.GetComponent<MeshCollider>();
-
-        if (maskCollider == null || pieceCollider == null)
+        if (maskCollider == null)
+        {
+            Debug.LogWarning("Mask collider missing!");
             return 0f;
+        }
 
-        // Считаем количество точек на меше, находящихся внутри маски
         Mesh mesh = piece.GetComponent<MeshFilter>().sharedMesh;
         Vector3[] vertices = mesh.vertices;
 
         int insideCount = 0;
+
         foreach (Vector3 vertex in vertices)
         {
             Vector3 worldPoint = piece.transform.TransformPoint(vertex);
-            if (maskCollider.bounds.Contains(worldPoint))
+            Vector3 closestPoint = maskCollider.ClosestPoint(worldPoint);
+            float dist = Vector3.Distance(worldPoint, closestPoint);
+
+            if (dist <= maxDistance)
                 insideCount++;
         }
-
-        Destroy(pieceCollider); // убираем временный коллайдер
 
         return insideCount / (float)vertices.Length;
     }
