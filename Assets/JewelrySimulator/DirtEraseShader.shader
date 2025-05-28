@@ -1,10 +1,10 @@
-Shader "Custom/DirtEraseShader"
+Shader "Custom/DirtEraseShader_AutoDark"
 {
     Properties
     {
         _MainTex ("Base Texture", 2D) = "white" {}
-        _DirtTex ("Dirt Texture", 2D) = "white" {}
         _MaskTex ("Mask Texture", 2D) = "white" {}
+        _DirtDarkness ("Dirt Darkness", Range(0,1)) = 0.5
     }
     SubShader
     {
@@ -18,8 +18,8 @@ Shader "Custom/DirtEraseShader"
             #pragma fragment frag
 
             sampler2D _MainTex;
-            sampler2D _DirtTex;
             sampler2D _MaskTex;
+            float _DirtDarkness;
 
             struct appdata
             {
@@ -44,10 +44,10 @@ Shader "Custom/DirtEraseShader"
             fixed4 frag (v2f i) : SV_Target
             {
                 float4 baseCol = tex2D(_MainTex, i.uv);
-                float4 dirtCol = tex2D(_DirtTex, i.uv);
                 float mask = tex2D(_MaskTex, i.uv).r;
 
-                // Если mask белый (1) — грязь видна. Если 0 — грязь убрана.
+                float4 dirtCol = baseCol * _DirtDarkness;
+
                 float4 result = lerp(dirtCol, baseCol, 1 - mask);
                 return result;
             }

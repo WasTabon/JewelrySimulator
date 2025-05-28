@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class EraseDirt : MonoBehaviour
 {
-    public Camera cam; // Камера для Raycast'а
-    public RenderTexture maskTexture; // Маска
-    public Material eraseMaterial; // Материал с кисточкой
+    public Camera cam;
+    public RenderTexture maskTexture;
+    public Material eraseMaterial;
     public float brushSize = 0.1f;
 
     private void Start()
