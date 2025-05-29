@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Gem
+  - Canvas
+  - LeftText
+  - Pendant
+  - Crown
+  - Ring
   layers:
   - Default
   - TransparentFX

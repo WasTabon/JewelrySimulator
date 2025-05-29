@@ -48,17 +48,19 @@ public class GemCutter : MonoBehaviour
 
     void SetupPiece(GameObject piece, Vector3 forceDir, bool isSmall = false)
     {
-        piece.transform.position += forceDir * 0.01f;
+        if (isSmall)
+            piece.transform.position += forceDir * 0.01f;
 
         var col = piece.AddComponent<MeshCollider>();
-        col.convex = true;
-        col.isTrigger = true;
 
         var rb = piece.AddComponent<Rigidbody>();
         rb.mass = 0.1f;
 
         if (isSmall)
         {
+            col.convex = true;
+                    col.isTrigger = true;
+            
             rb.AddForce(forceDir * pushForce, ForceMode.Impulse);
 
             piece.transform.DOScale(Vector3.zero, 1f)
