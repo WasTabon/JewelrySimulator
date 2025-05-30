@@ -4,7 +4,8 @@ public enum State
 {
     Default,
     Clean,
-    Cut
+    Cut,
+    Lava
 }
 
 public enum GemType
