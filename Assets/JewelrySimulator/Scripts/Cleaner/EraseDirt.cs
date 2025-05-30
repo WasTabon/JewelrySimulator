@@ -1,14 +1,20 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class EraseDirt : MonoBehaviour
 {
+    [SerializeField] private RectTransform _nextButton;
+    
     public Camera cam;
     public RenderTexture maskTexture;
     public Material eraseMaterial;
     public float brushSize = 0.1f;
 
+    private bool _hasScaledNextButton = false;
+    
     private void Start()
     {
+        _nextButton.DOScale(Vector3.zero, 0f);
         RenderTexture.active = maskTexture;
         GL.Clear(true, true, Color.white);
         RenderTexture.active = null;
@@ -18,9 +24,16 @@ public class EraseDirt : MonoBehaviour
     {
         if (GameState.Instance.state != State.Clean)
             return;
-        
+    
         if (Input.GetMouseButton(0))
         {
+            if (!_hasScaledNextButton)
+            {
+                 _hasScaledNextButton = true;
+                _nextButton.DOScale(Vector3.one, 0.5f)
+                    .SetEase(Ease.InOutBack);
+            }
+    
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
@@ -28,9 +41,20 @@ public class EraseDirt : MonoBehaviour
                 DrawAtUV(uv);
             }
         }
+        else
+        {
+            _hasScaledNextButton = false;
+        }
     }
 
-    void DrawAtUV(Vector2 uv)
+    public void HandleStateNextCut()
+    {
+        _nextButton.DOScale(Vector3.zero, 0.5f)
+            .SetEase(Ease.InOutBack);
+        GameState.Instance.state = State.Cut;
+    }
+    
+    private void DrawAtUV(Vector2 uv)
     {
         RenderTexture.active = maskTexture;
 

@@ -8,11 +8,29 @@ public class GemCutter : MonoBehaviour
     public float pushForce = 2f;
     
     public GameObject targetShapeMask;
-    
-    public Vector3 centerReference = Vector3.zero;
+    public GameObject targetShapeMaskRed;
+    public GameObject targetShapeMaskBlue;
+    public GameObject targetShapeMaskGreen;
 
     public void Cut(GameObject gem, Vector3 point, Vector3 normal)
     {
+        if (GameState.Instance.gemType == GemType.Red)
+        {
+            targetShapeMask = targetShapeMaskRed;
+        }
+        else if (GameState.Instance.gemType == GemType.Blue)
+        {
+            targetShapeMask = targetShapeMaskBlue;
+        }
+        else if (GameState.Instance.gemType == GemType.Green)
+        {
+            targetShapeMask = targetShapeMaskGreen;
+        }
+        else
+        {
+            targetShapeMask = targetShapeMaskRed;
+        }
+        
         SlicedHull hull = gem.Slice(point, normal);
         if (hull == null) return;
 

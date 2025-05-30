@@ -123,21 +123,25 @@ public class CustomerContrller : MonoBehaviour
             _redGem.gameObject.SetActive(true);
             _redOutline.gameObject.SetActive(true);
             _currentGem = _redGem;
+            GameState.Instance.gemType = GemType.Red;
             break;
          case 1:
             _blueGem.gameObject.SetActive(true);
             _blueOutline.gameObject.SetActive(true);
             _currentGem = _blueGem;
+            GameState.Instance.gemType = GemType.Blue;
             break;
          case 2:
             _greenGem.gameObject.SetActive(true);
             _greenOutline.gameObject.SetActive(true);
             _currentGem = _greenGem;
+            GameState.Instance.gemType = GemType.Green;
             break;
          default:
             _redGem.gameObject.SetActive(true);
             _redOutline.gameObject.SetActive(true);
             _currentGem = _redGem;
+            GameState.Instance.gemType = GemType.Red;
             break;
       }
       
@@ -159,6 +163,9 @@ public class CustomerContrller : MonoBehaviour
 
    public void HandleCreateStart()
    {
+       _createButton.DOScale(Vector3.zero, 0.5f)
+          .SetEase(Ease.InOutBack);
+      
       Sequence sequence = DOTween.Sequence();
       
       sequence.Join(_cameraTransform.DOMove(_cameraCutPos.position, 1f)

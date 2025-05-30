@@ -7,11 +7,19 @@ public enum State
     Cut
 }
 
+public enum GemType
+{
+    Red,
+    Blue,
+    Green
+}
+
 public class GameState : MonoBehaviour
 {
     public static GameState Instance;
 
     public State state;
+    public GemType gemType;
 
     private void Awake()
     {

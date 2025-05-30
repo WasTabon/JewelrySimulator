@@ -23,7 +23,10 @@ public class ClothFollower : MonoBehaviour
     private void Update()
     {
         if (GameState.Instance.state != State.Clean)
+        {
+            ReturnToStart();
             return;
+        }
         
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
