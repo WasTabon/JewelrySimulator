@@ -801,15 +801,15 @@ MonoBehaviour:
   _cameraTransform: {fileID: 1301291360}
   _customers:
   - {fileID: 1814624408919847829, guid: 2f1df9ec02fff7b419fcb941ea0886ca, type: 3}
-  _redCrownImage: {fileID: 0}
-  _redRingImage: {fileID: 0}
-  _redPendantImage: {fileID: 0}
-  _blueCrownImage: {fileID: 0}
-  _blueRingImage: {fileID: 0}
-  _bluePendantImage: {fileID: 0}
-  _greenCrownImage: {fileID: 0}
-  _greenRingImage: {fileID: 0}
-  _greenPendantImage: {fileID: 0}
+  _redCrownImage: {fileID: 21300000, guid: cc1ec19a806e04a4cafe1372b3bd1396, type: 3}
+  _redRingImage: {fileID: 21300000, guid: f8f7ffd8bc45a3f41b32c486ce1a8f5e, type: 3}
+  _redPendantImage: {fileID: 21300000, guid: 8b87d5b2074250344856cc3c8552e4c3, type: 3}
+  _blueCrownImage: {fileID: 21300000, guid: 7a597e79ea1eb2740a3116c4fcaa86aa, type: 3}
+  _blueRingImage: {fileID: 21300000, guid: cdd2c5e3e3d7e4a42a2cc02247420b0b, type: 3}
+  _bluePendantImage: {fileID: 21300000, guid: 020072d70ec2afd4ba50b5dcbce6dacf, type: 3}
+  _greenCrownImage: {fileID: 21300000, guid: 15b706e210134d749bf3c1657530b0da, type: 3}
+  _greenRingImage: {fileID: 21300000, guid: 4759231bb425e26438f9f8851f06e421, type: 3}
+  _greenPendantImage: {fileID: 21300000, guid: b909e02e6aeebbb4da0a5efc6deb1052, type: 3}
   _redGem: {fileID: 0}
   _cameraMainPos: {fileID: 0}
   _cameraCutPos: {fileID: 0}

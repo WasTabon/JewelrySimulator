@@ -1,13 +1,28 @@
-using System;
-using DG.Tweening;
+   using System.Collections.Generic;
+   using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+public class JewelrySet
+{
+   public Sprite crown;
+   public Sprite ring;
+   public Sprite pendant;
+
+   public JewelrySet(Sprite crown, Sprite ring, Sprite pendant)
+   {
+      this.crown = crown;
+      this.ring = ring;
+      this.pendant = pendant;
+   }
+}
+
 public class CustomerContrller : MonoBehaviour
 {
    [SerializeField] private Transform _cameraTransform;
+   [SerializeField] private RectTransform _createButton;
    [SerializeField] private GameObject[] _customers;
    
    [SerializeField] private Sprite _redCrownImage;
@@ -23,6 +38,11 @@ public class CustomerContrller : MonoBehaviour
    [SerializeField] private Sprite _greenPendantImage;
 
    [SerializeField] private GameObject _redGem;
+   [SerializeField] private GameObject _redOutline;
+   [SerializeField] private GameObject _blueGem;
+   [SerializeField] private GameObject _blueOutline;
+   [SerializeField] private GameObject _greenGem;
+   [SerializeField] private GameObject _greenOutline;
 
    [SerializeField] private Transform _cameraMainPos;
    [SerializeField] private Transform _cameraCutPos;
@@ -31,7 +51,10 @@ public class CustomerContrller : MonoBehaviour
    [SerializeField] private Transform _centerPos;
    [SerializeField] private Transform _endPos;
 
+   private List<JewelrySet> _sets;
+   
    private GameObject _activeCustomer;
+   private GameObject _currentGem;
    private RectTransform _canvas;
    private TextMeshProUGUI _text;
    private Image _crownImage;
@@ -40,6 +63,15 @@ public class CustomerContrller : MonoBehaviour
 
    private void Start()
    {
+      _sets = new List<JewelrySet>
+      {
+         new JewelrySet(_redCrownImage, _redRingImage, _redPendantImage),
+         new JewelrySet(_blueCrownImage, _blueRingImage, _bluePendantImage),
+         new JewelrySet(_greenCrownImage, _greenRingImage, _greenPendantImage)
+      };
+
+      _createButton.DOScale(Vector3.zero, 0f);
+      
       InvokeRepeating("HandleCustomers", 0f, 3f);
    }
 
@@ -61,6 +93,53 @@ public class CustomerContrller : MonoBehaviour
       _pendantnImage = FindChildByTag<Image>(customer.transform, "Pendant");
 
       _canvas.DOScale(Vector3.zero, 0f);
+
+      int randomSet = Random.Range(0, _sets.Count);
+      int randomItem = Random.Range(0, 3);
+      JewelrySet jewelrySet = _sets[randomSet];
+
+      switch (randomItem)
+      {
+         case 0:
+            _crownImage.gameObject.SetActive(true);
+            _crownImage.sprite = jewelrySet.crown;
+            break;
+         case 1:
+            _ringImage.gameObject.SetActive(true);
+            _ringImage.sprite = jewelrySet.ring;
+            break;
+         case 2:
+            _pendantnImage.gameObject.SetActive(true);
+            _pendantnImage.sprite = jewelrySet.pendant;
+            break;
+         default:
+            _crownImage.gameObject.SetActive(true);
+            _crownImage.sprite = jewelrySet.crown;
+            break;
+      }
+      switch (randomSet)
+      {
+         case 0:
+            _redGem.gameObject.SetActive(true);
+            _redOutline.gameObject.SetActive(true);
+            _currentGem = _redGem;
+            break;
+         case 1:
+            _blueGem.gameObject.SetActive(true);
+            _blueOutline.gameObject.SetActive(true);
+            _currentGem = _blueGem;
+            break;
+         case 2:
+            _greenGem.gameObject.SetActive(true);
+            _greenOutline.gameObject.SetActive(true);
+            _currentGem = _greenGem;
+            break;
+         default:
+            _redGem.gameObject.SetActive(true);
+            _redOutline.gameObject.SetActive(true);
+            _currentGem = _redGem;
+            break;
+      }
       
       customer.transform.DORotate(new Vector3(0, 180, 0), 0f);
       
@@ -69,8 +148,24 @@ public class CustomerContrller : MonoBehaviour
          .OnComplete(() =>
          {
             _canvas.DOScale(Vector3.one, 0.5f)
-               .SetEase(Ease.InOutBack);
+               .SetEase(Ease.InOutBack)
+               .OnComplete((() =>
+               {
+                  _createButton.DOScale(Vector3.one, 0.5f)
+                     .SetEase(Ease.InOutBack);
+               }));
          });
+   }
+
+   public void HandleCreateStart()
+   {
+      Sequence sequence = DOTween.Sequence();
+      
+      _cameraTransform.DOMove(_cameraCutPos.position, 1f)
+         .SetEase(Ease.InOutSine);
+
+      _cameraTransform.DORotate(_cameraCutPos.eulerAngles, 1f)
+         .SetEase(Ease.InOutSine);
    }
    
    private T FindChildByTag<T>(Transform parent, string tag) where T : Component
