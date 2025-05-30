@@ -166,6 +166,11 @@ public class CustomerContrller : MonoBehaviour
       
       sequence.Join(_cameraTransform.DORotate(_cameraCutPos.eulerAngles, 1f)
          .SetEase(Ease.InOutSine));
+
+      sequence.OnComplete((() =>
+      {
+         GameState.Instance.state = State.Clean;
+      }));
    }
    
    private T FindChildByTag<T>(Transform parent, string tag) where T : Component

@@ -21,6 +21,9 @@ public class SwipeCutter : MonoBehaviour
 
     void Update()
     {
+        if (GameState.Instance.state != State.Cut)
+            return;
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GameObject gem = GameObject.FindWithTag("Gem");

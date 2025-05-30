@@ -16,6 +16,9 @@ public class EraseDirt : MonoBehaviour
    
     private void Update()
     {
+        if (GameState.Instance.state != State.Clean)
+            return;
+        
         if (Input.GetMouseButton(0))
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
