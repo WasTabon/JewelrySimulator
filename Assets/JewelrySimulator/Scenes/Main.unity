@@ -4349,6 +4349,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920289296}
   m_CullTransparentMesh: 1
+--- !u!4 &943879338 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
+  m_PrefabInstance: {fileID: 1546923656}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &967890872
 GameObject:
   m_ObjectHideFlags: 0
@@ -4362,7 +4367,7 @@ GameObject:
   - component: {fileID: 967890875}
   - component: {fileID: 967890874}
   m_Layer: 0
-  m_Name: Lava
+  m_Name: LavaForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6378,7 +6383,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1640497793}
     m_Modifications:
     - target: {fileID: 100000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
       propertyPath: m_Name
@@ -6386,15 +6391,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.096076
+      value: -4.236076
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.810009
+      value: 2.2251704
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.65
+      value: -22.55
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6406,11 +6411,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d2debcb3c417b07419457484a835eb7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6858,6 +6863,7 @@ Transform:
   - {fileID: 4492034409685087878}
   - {fileID: 484007386}
   - {fileID: 338070922}
+  - {fileID: 943879338}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1643231722
@@ -9768,7 +9774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2126121167
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10054,7 +10060,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4918237242131370}
-  - component: {fileID: 95997108360458520}
+  - component: {fileID: 4918237242131371}
   m_Layer: 0
   m_Name: LavaPot
   m_TagString: Untagged
@@ -11109,7 +11115,7 @@ Transform:
   m_GameObject: {fileID: 1122125787119138}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.064, y: 1.5590755, z: -0.412}
+  m_LocalPosition: {x: -3.064, y: 1.559075, z: -0.412}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11117,6 +11123,27 @@ Transform:
   - {fileID: 8983002472321283902}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &4918237242131371
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122125787119138}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1ed1bd276b9ab2343ba5269766b6d747, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &4953199522772577
 Transform:
   m_ObjectHideFlags: 0
@@ -13212,27 +13239,6 @@ Animator:
   m_GameObject: {fileID: 1073270647444809}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d648475b5df58ee45a5f67eca4cdf035, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!95 &95997108360458520
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122125787119138}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 72a662c2902a77d459316b30e84467bf, type: 3}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -15709,7 +15715,7 @@ Transform:
   m_GameObject: {fileID: 8981021745342591934}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0012799263, y: 0.09, z: -0.0038800002}
+  m_LocalPosition: {x: 0.0012799263, y: 0.09, z: -0.00388}
   m_LocalScale: {x: 2.3242488, y: 1.6, z: 1.3239385}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15796,7 +15802,6 @@ SceneRoots:
   - {fileID: 643963408}
   - {fileID: 331120458}
   - {fileID: 1328756974052379128}
-  - {fileID: 1546923656}
   - {fileID: 4903242315168983}
   - {fileID: 1442893360901088169}
   - {fileID: 428309736}
