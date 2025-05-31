@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class LavaController : MonoBehaviour
 {
+    [SerializeField] private Transform _cameraPosForm;
     [SerializeField] private Transform _lava;
     [SerializeField] private RectTransform _nextButtonForm;
+    [SerializeField] private Animator _lavaAnimator;
 
     private void Start()
     {
@@ -52,15 +54,26 @@ public class LavaController : MonoBehaviour
 
     private void HandleLavaMovement()
     {
-        Debug.Log("Start Move");
         _lava.DOLocalMoveY(0.09f, 1f)
             .SetEase(Ease.OutQuad)
             .OnComplete((() =>
             {
-                Debug.Log("Movement Finsihed");
+                _nextButtonForm.DOScale(Vector3.one, 0.5f)
+                    .SetEase(Ease.InOutBack);
             }));
     }
 
+    public void HandleCameraForm()
+    {
+        GameState.Instance.state = State.Form;
+        Camera.main.transform.DOMove(_cameraPosForm.position, 1f)
+            .SetEase(Ease.InOutSine)
+            .OnComplete((() =>
+            {
+                _lavaAnimator.SetTrigger("OnLava");
+            }));
+    }
+    
     private void ResetLava()
     {
         _lava.DOLocalMoveY(-0.05f, 0f);
