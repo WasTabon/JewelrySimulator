@@ -1,13 +1,14 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
 public class LavaController : MonoBehaviour
 {
     [SerializeField] private Transform _lava;
+    [SerializeField] private RectTransform _nextButtonForm;
 
     private void Start()
     {
+        _nextButtonForm.DOScale(Vector3.zero, 0f);
         ResetLava();
     }
 
