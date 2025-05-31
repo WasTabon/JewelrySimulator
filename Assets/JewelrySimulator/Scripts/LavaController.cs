@@ -1,9 +1,15 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
 public class LavaController : MonoBehaviour
 {
     [SerializeField] private Transform _lava;
+
+    private void Start()
+    {
+        ResetLava();
+    }
 
     private void Update()
     {
@@ -52,5 +58,10 @@ public class LavaController : MonoBehaviour
             {
                 Debug.Log("Movement Finsihed");
             }));
+    }
+
+    private void ResetLava()
+    {
+        _lava.DOLocalMoveY(-0.05f, 0f);
     }
 }
