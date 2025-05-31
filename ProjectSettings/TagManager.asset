@@ -10,6 +10,9 @@ TagManager:
   - Pendant
   - Crown
   - Ring
+  - GoldRed
+  - GoldBlue
+  - GoldGreen
   layers:
   - Default
   - TransparentFX
