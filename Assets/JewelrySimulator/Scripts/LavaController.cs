@@ -71,6 +71,7 @@ public class LavaController : MonoBehaviour
             .OnComplete((() =>
             {
                 _lavaAnimator.SetTrigger("OnLava");
+                // Доробити анімацію шоб на 3 секунді +-був спавн кольца і після того заново всьо крафтити
             }));
     }
     
