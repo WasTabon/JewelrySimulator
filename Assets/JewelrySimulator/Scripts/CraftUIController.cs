@@ -25,26 +25,24 @@ public class CraftUIController : MonoBehaviour
 
     private void Update()
     {
-        if ((_circleLeft.gameObject.activeSelf && _squareRight.gameObject.activeSelf) ||
-            (_circleRight.gameObject.activeSelf && _squareLeft.gameObject.activeSelf))
+        string left = GetActiveShape(_circleLeft, _squareLeft, _triangleLeft);
+        string right = GetActiveShape(_circleRight, _squareRight, _triangleRight);
+
+        if ((left == "circle" && right == "square") || (left == "square" && right == "circle"))
         {
-            _resultPendant.gameObject.SetActive(true);
-            _resultCrown.gameObject.SetActive(false);
-            _resultRing.gameObject.SetActive(false);
+            ShowResult(_resultPendant);
         }
-        else if ((_circleLeft.gameObject.activeSelf && _triangleRight.gameObject.activeSelf) ||
-            (_circleRight.gameObject.activeSelf && _triangleLeft.gameObject.activeSelf))
+        else if ((left == "circle" && right == "triangle") || (left == "triangle" && right == "circle"))
         {
-            _resultPendant.gameObject.SetActive(false);
-            _resultCrown.gameObject.SetActive(true);
-            _resultRing.gameObject.SetActive(false);
+            ShowResult(_resultCrown);
         }
-        else if ((_circleLeft.gameObject.activeSelf && _circleRight.gameObject.activeSelf) ||
-                 (_circleRight.gameObject.activeSelf && _circleLeft.gameObject.activeSelf))
+        else if (left == "circle" && right == "circle")
         {
-            _resultPendant.gameObject.SetActive(false);
-            _resultCrown.gameObject.SetActive(false);
-            _resultRing.gameObject.SetActive(true);
+            ShowResult(_resultRing);
+        }
+        else
+        {
+            ShowResult(null);
         }
     }
 
@@ -181,5 +179,20 @@ public class CraftUIController : MonoBehaviour
             _square.gameObject.SetActive(false);
             _triangle.gameObject.SetActive(true);
         }
+    }
+    
+    private string GetActiveShape(Image circle, Image square, Image triangle)
+    {
+        if (circle.gameObject.activeSelf) return "circle";
+        if (square.gameObject.activeSelf) return "square";
+        if (triangle.gameObject.activeSelf) return "triangle";
+        return "";
+    }
+
+    private void ShowResult(Image result)
+    {
+        _resultPendant.gameObject.SetActive(result == _resultPendant);
+        _resultCrown.gameObject.SetActive(result == _resultCrown);
+        _resultRing.gameObject.SetActive(result == _resultRing);
     }
 }
