@@ -1,8 +1,18 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CraftUIController : MonoBehaviour
 {
+    [SerializeField] private Transform _cameraTransform;
+    [SerializeField] private Transform _spawnPos;
+
+    [SerializeField] private GameObject _craftPanel;
+    
+    [SerializeField] private GameObject _crown;
+    [SerializeField] private GameObject _pendant;
+    [SerializeField] private GameObject _ring;
+    
     [SerializeField] private Image _circleLeft;
     [SerializeField] private Image _squareLeft;
     [SerializeField] private Image _triangleLeft;
@@ -53,6 +63,41 @@ public class CraftUIController : MonoBehaviour
     public void SetCurrentImageRight()
     {
         _isRight = true;
+    }
+
+    public void Spawn()
+    {
+        if (!_resultCrown.gameObject.activeSelf && !_resultPendant.gameObject.activeSelf && !_resultRing.gameObject.activeSelf)
+            return;
+        
+        _craftPanel.gameObject.SetActive(false);
+        Sequence sequence = DOTween.Sequence();
+      
+        sequence.Join(_cameraTransform.DOMove(_spawnPos.position, 1f)
+            .SetEase(Ease.InOutSine));
+      
+        sequence.Join(_cameraTransform.DORotate(_spawnPos.eulerAngles, 1f)
+            .SetEase(Ease.InOutSine));
+
+        sequence.OnComplete((() =>
+        {
+            if (_resultCrown.gameObject.activeSelf)
+            {
+                Instantiate(_crown, _spawnPos.position, Quaternion.identity);
+            }
+            else if (_resultPendant.gameObject.activeSelf)
+            {
+                Instantiate(_pendant, _spawnPos.position, Quaternion.identity);
+            }
+            else if (_resultRing.gameObject.activeSelf)
+            {
+                Instantiate(_ring, _spawnPos.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(_crown, _spawnPos.position, Quaternion.identity);
+            }
+        }));
     }
 
     public void SetImageToCraftNext()
