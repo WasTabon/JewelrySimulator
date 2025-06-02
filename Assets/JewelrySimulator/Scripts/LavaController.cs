@@ -8,6 +8,7 @@ public class LavaController : MonoBehaviour
     [SerializeField] private Transform _lava;
     [SerializeField] private RectTransform _nextButtonForm;
     [SerializeField] private Animator _lavaAnimator;
+    [SerializeField] private GameObject _createPanel;
 
     private void Start()
     {
@@ -75,8 +76,13 @@ public class LavaController : MonoBehaviour
             .OnComplete((() =>
             {
                 _lavaAnimator.SetTrigger("OnLava");
-                // Доробити анімацію шоб на 3 секунді +-був спавн кольца і після того заново всьо крафтити
+                Invoke("ShowCreate", 5f);
             }));
+    }
+
+    private void ShowCreate()
+    {
+        _createPanel.SetActive(true);
     }
     
     private void ResetLava()

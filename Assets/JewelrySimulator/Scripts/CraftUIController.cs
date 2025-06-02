@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,41 @@ public class CraftUIController : MonoBehaviour
     [SerializeField] private Image _squareRight;
     [SerializeField] private Image _triangleRight;
     
-    [SerializeField] private Image _resultImage;
+    [SerializeField] private Image _resultCrown;
+    [SerializeField] private Image _resultPendant;
+    [SerializeField] private Image _resultRing;
+    
+    [SerializeField] private Image _circle;
+    [SerializeField] private Image _square;
+    [SerializeField] private Image _triangle;
     
     private int _currentIndex = 1;
     private bool _isRight;
+
+    private void Update()
+    {
+        if ((_circleLeft.gameObject.activeSelf && _squareRight.gameObject.activeSelf) ||
+            (_circleRight.gameObject.activeSelf && _squareLeft.gameObject.activeSelf))
+        {
+            _resultPendant.gameObject.SetActive(true);
+            _resultCrown.gameObject.SetActive(false);
+            _resultRing.gameObject.SetActive(false);
+        }
+        else if ((_circleLeft.gameObject.activeSelf && _triangleRight.gameObject.activeSelf) ||
+            (_circleRight.gameObject.activeSelf && _triangleLeft.gameObject.activeSelf))
+        {
+            _resultPendant.gameObject.SetActive(false);
+            _resultCrown.gameObject.SetActive(true);
+            _resultRing.gameObject.SetActive(false);
+        }
+        else if ((_circleLeft.gameObject.activeSelf && _circleRight.gameObject.activeSelf) ||
+                 (_circleRight.gameObject.activeSelf && _circleLeft.gameObject.activeSelf))
+        {
+            _resultPendant.gameObject.SetActive(false);
+            _resultCrown.gameObject.SetActive(false);
+            _resultRing.gameObject.SetActive(true);
+        }
+    }
 
     public void SetCurrentImageLeft()
     {
@@ -74,6 +106,8 @@ public class CraftUIController : MonoBehaviour
                     break;
             }
         }
+        
+        ChangeMainIcon();
     }
     public void SetImageToCraftPrevious()
     {
@@ -123,6 +157,29 @@ public class CraftUIController : MonoBehaviour
                     break;
             }
         }
+        
+        ChangeMainIcon();
     }
-    
+
+    private void ChangeMainIcon()
+    {
+        if (_currentIndex == 1)
+        {
+            _circle.gameObject.SetActive(true);
+            _square.gameObject.SetActive(false);
+            _triangle.gameObject.SetActive(false);
+        }
+        else if (_currentIndex == 2)
+        {
+            _circle.gameObject.SetActive(false);
+            _square.gameObject.SetActive(true);
+            _triangle.gameObject.SetActive(false);
+        }
+        else if (_currentIndex == 3)
+        {
+            _circle.gameObject.SetActive(false);
+            _square.gameObject.SetActive(false);
+            _triangle.gameObject.SetActive(true);
+        }
+    }
 }
