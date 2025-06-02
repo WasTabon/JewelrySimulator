@@ -1908,6 +1908,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9610724eaf967644a7ce41b1a307212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cameraTransform: {fileID: 1301291360}
+  _cameraCraftPos: {fileID: 264326612}
+  _spawnPos: {fileID: 1433922542}
+  _craftPanel: {fileID: 1730764414}
+  _crown: {fileID: 8278445317665266324, guid: 3e6e1fdc7991b144f9d343c90e7464cb, type: 3}
+  _pendant: {fileID: 8055787411618231443, guid: 5385a76564425ad43a475307a320cf7e, type: 3}
+  _ring: {fileID: 9037290645820448225, guid: 7202a9b6376973a4ebf78f9d300fab40, type: 3}
   _circleLeft: {fileID: 2066561633}
   _squareLeft: {fileID: 800854071}
   _triangleLeft: {fileID: 511271816}
@@ -7188,13 +7195,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301291357}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.51672226, y: 0.0004644376, z: -0.00076952565, w: 0.85615265}
-  m_LocalPosition: {x: -1.167115, y: 2.45, z: -0.92}
+  m_LocalRotation: {x: 0.27913886, y: 0.000000808388, z: 0.000008965435, w: 0.9602508}
+  m_LocalPosition: {x: -1.1671152, y: 3.0673974, z: -1.5489047}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 62.225, y: 0, z: -0.103}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1319726160
 GameObject:
   m_ObjectHideFlags: 0
@@ -13705,7 +13712,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2140705260}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 331120461}
+        m_TargetAssemblyTypeName: CraftUIController, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2140705260
 MonoBehaviour:
   m_ObjectHideFlags: 0

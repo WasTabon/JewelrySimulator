@@ -71,6 +71,8 @@ public class LavaController : MonoBehaviour
     {
         GameState.Instance.state = State.Form;
         
+        _nextButtonForm.DOScale(Vector3.zero, 0f);
+        
         _cameraTransform.DOMove(_cameraPosForm.position, 1f)
             .SetEase(Ease.InOutSine)
             .OnComplete((() =>

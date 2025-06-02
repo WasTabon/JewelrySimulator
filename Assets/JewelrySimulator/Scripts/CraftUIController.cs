@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class CraftUIController : MonoBehaviour
 {
     [SerializeField] private Transform _cameraTransform;
+    [SerializeField] private Transform _cameraCraftPos;
     [SerializeField] private Transform _spawnPos;
 
     [SerializeField] private GameObject _craftPanel;
@@ -28,6 +29,8 @@ public class CraftUIController : MonoBehaviour
     [SerializeField] private Image _circle;
     [SerializeField] private Image _square;
     [SerializeField] private Image _triangle;
+
+    private GameObject _spawned;
     
     private int _currentIndex = 1;
     private bool _isRight;
@@ -73,29 +76,29 @@ public class CraftUIController : MonoBehaviour
         _craftPanel.gameObject.SetActive(false);
         Sequence sequence = DOTween.Sequence();
       
-        sequence.Join(_cameraTransform.DOMove(_spawnPos.position, 1f)
+        sequence.Join(_cameraTransform.DOMove(_cameraCraftPos.position, 1f)
             .SetEase(Ease.InOutSine));
       
-        sequence.Join(_cameraTransform.DORotate(_spawnPos.eulerAngles, 1f)
+        sequence.Join(_cameraTransform.DORotate(_cameraCraftPos.eulerAngles, 1f)
             .SetEase(Ease.InOutSine));
 
         sequence.OnComplete((() =>
         {
             if (_resultCrown.gameObject.activeSelf)
             {
-                Instantiate(_crown, _spawnPos.position, Quaternion.identity);
+                _spawned = Instantiate(_crown, _spawnPos.position, Quaternion.identity);
             }
             else if (_resultPendant.gameObject.activeSelf)
             {
-                Instantiate(_pendant, _spawnPos.position, Quaternion.identity);
+                _spawned = Instantiate(_pendant, _spawnPos.position, Quaternion.identity);
             }
             else if (_resultRing.gameObject.activeSelf)
             {
-                Instantiate(_ring, _spawnPos.position, Quaternion.identity);
+                _spawned = Instantiate(_ring, _spawnPos.position, Quaternion.identity);
             }
             else
             {
-                Instantiate(_crown, _spawnPos.position, Quaternion.identity);
+                _spawned = Instantiate(_crown, _spawnPos.position, Quaternion.identity);
             }
         }));
     }
