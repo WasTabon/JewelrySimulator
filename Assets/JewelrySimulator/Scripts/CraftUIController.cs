@@ -1,10 +1,13 @@
+using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class CraftUIController : MonoBehaviour
 {
+    [SerializeField] private RectTransform _rewardPanel;
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private Transform _cameraCraftPos;
     [SerializeField] private Transform _cameraMainPos;
@@ -39,6 +42,11 @@ public class CraftUIController : MonoBehaviour
     
     private int _currentIndex = 1;
     private bool _isRight;
+
+    private void Start()
+    {
+        _rewardPanel.DOScale(Vector3.zero, 0f);
+    }
 
     private void Update()
     {
@@ -96,18 +104,22 @@ public class CraftUIController : MonoBehaviour
                     if (_resultCrown.gameObject.activeSelf)
                     {
                         _spawned = Instantiate(_crown, _spawnPos.position, Quaternion.identity);
+                        Invoke("SellItem", 0.5f);
                     }
                     else if (_resultPendant.gameObject.activeSelf)
                     {
                         _spawned = Instantiate(_pendant, _spawnPos.position, Quaternion.identity);
+                        Invoke("SellItem", 0.5f);
                     }
                     else if (_resultRing.gameObject.activeSelf)
                     {
                         _spawned = Instantiate(_ring, _spawnPos.position, Quaternion.identity);
+                        Invoke("SellItem", 0.5f);
                     }
                     else
                     {
                         _spawned = Instantiate(_crown, _spawnPos.position, Quaternion.identity);
+                        Invoke("SellItem", 0.5f);
                     }
                 });
         });
@@ -115,6 +127,23 @@ public class CraftUIController : MonoBehaviour
 
     private void SellItem()
     {
+        int random = Random.Range(0, 3);
+        switch (random)
+        {
+            case 0:
+                text.text = "It is great. Thanks!";
+                break;
+            case 1:
+                text.text = "Not bad. Thanks";
+                break;
+            case 2:
+                text.text = "This is awful";
+                break;
+            default:
+                text.text = "It is great. Thanks!";
+                break;
+        }
+        
         Sequence sequence = DOTween.Sequence();
       
         sequence.Join(_cameraTransform.DOMove(_cameraMainPos.position, 1f)
@@ -122,6 +151,24 @@ public class CraftUIController : MonoBehaviour
       
         sequence.Join(_cameraTransform.DORotate(_cameraMainPos.eulerAngles, 1f)
             .SetEase(Ease.InOutSine));
+
+        sequence.OnComplete((() =>
+        {
+            canvas.DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.InOutBack)
+                .OnComplete((() =>
+                {
+                    _rewardPanel.DOScale(Vector3.one, 0.5f)
+                        .SetDelay(1f)
+                        .SetEase(Ease.InOutBack);
+                }));
+        }));
+    }
+
+    public void CloseCraftPanel()
+    {
+        _rewardPanel.DOScale(Vector3.zero, 0.5f)
+            .SetEase(Ease.InOutBack);
     }
 
     public void SetImageToCraftNext()
