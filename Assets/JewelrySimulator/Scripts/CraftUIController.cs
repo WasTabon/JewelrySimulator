@@ -1,4 +1,5 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +32,9 @@ public class CraftUIController : MonoBehaviour
     [SerializeField] private Image _square;
     [SerializeField] private Image _triangle;
 
+    public RectTransform canvas;
+    public TextMeshProUGUI text;
+    
     private GameObject _spawned;
     
     private int _currentIndex = 1;
@@ -107,6 +111,17 @@ public class CraftUIController : MonoBehaviour
                     }
                 });
         });
+    }
+
+    private void SellItem()
+    {
+        Sequence sequence = DOTween.Sequence();
+      
+        sequence.Join(_cameraTransform.DOMove(_cameraMainPos.position, 1f)
+            .SetEase(Ease.InOutSine));
+      
+        sequence.Join(_cameraTransform.DORotate(_cameraMainPos.eulerAngles, 1f)
+            .SetEase(Ease.InOutSine));
     }
 
     public void SetImageToCraftNext()

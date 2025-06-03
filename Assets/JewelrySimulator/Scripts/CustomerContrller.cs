@@ -51,6 +51,8 @@ public class CustomerContrller : MonoBehaviour
    [SerializeField] private Transform _centerPos;
    [SerializeField] private Transform _endPos;
 
+   public CraftUIController craftUIController;
+   
    private List<JewelrySet> _sets;
    
    private GameObject _activeCustomer;
@@ -93,6 +95,10 @@ public class CustomerContrller : MonoBehaviour
       _pendantnImage = FindChildByTag<Image>(customer.transform, "Pendant");
 
       _canvas.DOScale(Vector3.zero, 0f);
+      _text.text = "I want this";
+
+      craftUIController.canvas = _canvas;
+      craftUIController.text = _text;
 
       int randomSet = Random.Range(0, _sets.Count);
       int randomItem = Random.Range(0, 3);
@@ -176,6 +182,7 @@ public class CustomerContrller : MonoBehaviour
 
       sequence.OnComplete((() =>
       {
+          _canvas.DOScale(Vector3.zero, 0f);
          GameState.Instance.state = State.Clean;
       }));
    }
