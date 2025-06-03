@@ -131,7 +131,7 @@ public class CraftUIController : MonoBehaviour
         switch (random)
         {
             case 0:
-                text.text = "It is great. Thanks!";
+                text.text = "This is great. Thanks!";
                 break;
             case 1:
                 text.text = "Not bad. Thanks";
@@ -140,7 +140,7 @@ public class CraftUIController : MonoBehaviour
                 text.text = "This is awful";
                 break;
             default:
-                text.text = "It is great. Thanks!";
+                text.text = "This is great. Thanks!";
                 break;
         }
         
@@ -160,7 +160,11 @@ public class CraftUIController : MonoBehaviour
                 {
                     _rewardPanel.DOScale(Vector3.one, 0.5f)
                         .SetDelay(1f)
-                        .SetEase(Ease.InOutBack);
+                        .SetEase(Ease.InOutBack)
+                        .OnComplete((() =>
+                        {
+                            GameState.Instance.money += 50;
+                        }));
                 }));
         }));
     }

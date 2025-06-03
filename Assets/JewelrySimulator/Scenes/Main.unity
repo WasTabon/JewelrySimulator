@@ -1998,8 +1998,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b284fc3a97638b43b04248b377813a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  money: 0
+  level: 1
   state: 0
   gemType: 0
+  _levelText: {fileID: 0}
 --- !u!114 &331120460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19382,7 +19385,7 @@ MonoBehaviour:
   crystalObjectRed: {fileID: 7753367647478010417}
   crystalObjectBlue: {fileID: 2024361081}
   crystalObjectGreen: {fileID: 763456660}
-  followSpeed: 50
+  followSpeed: 35
   returnSpeed: 5
   defaultPosition: {x: 0, y: 0, z: 0}
   defaultRotation: {x: 0, y: 0, z: 0, w: 0}
