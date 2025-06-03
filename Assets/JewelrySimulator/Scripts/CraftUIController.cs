@@ -163,7 +163,7 @@ public class CraftUIController : MonoBehaviour
                         .SetEase(Ease.InOutBack)
                         .OnComplete((() =>
                         {
-                            GameState.Instance.money += 50;
+                            GameState.Instance.AddMoney(50);
                         }));
                 }));
         }));

@@ -28,11 +28,13 @@ public class GameState : MonoBehaviour
     public State state;
     public GemType gemType;
 
+    [SerializeField] private TextMeshProUGUI _moneyText;
     [SerializeField] private TextMeshProUGUI _levelText;
 
     private void Awake()
     {
         Instance = this;
+        LoadLevelMoney();
     }
 
     private void Start()
@@ -42,6 +44,32 @@ public class GameState : MonoBehaviour
 
     private void Update()
     {
+        _moneyText.text = money.ToString();
         _levelText.text = level.ToString();
+    }
+
+    public void UpgradeLevel()
+    {
+        if (money >= 500)
+        {
+            money -= 500;
+            level++;
+            PlayerPrefs.SetInt("money", money);
+            PlayerPrefs.SetInt("level", money);
+            PlayerPrefs.Save();
+        }
+    }
+
+    public void AddMoney(int amount)
+    {
+        money += amount;
+        PlayerPrefs.SetInt("money", money);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadLevelMoney()
+    {
+        money = PlayerPrefs.GetInt("money", 0);
+        level = PlayerPrefs.GetInt("level", 0);
     }
 }
