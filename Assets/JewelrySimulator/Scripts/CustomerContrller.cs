@@ -50,7 +50,11 @@ public class CustomerContrller : MonoBehaviour
    [SerializeField] private Transform _spawnPos;
    [SerializeField] private Transform _centerPos;
    [SerializeField] private Transform _endPos;
-
+   
+   public Transform redGemSpawn;
+   public Transform blueGemSpawn;
+   public Transform greenGemSpawn;
+   
    public CraftUIController craftUIController;
    
    private List<JewelrySet> _sets;
@@ -126,27 +130,27 @@ public class CustomerContrller : MonoBehaviour
       switch (randomSet)
       {
          case 0:
-            _redGem.gameObject.SetActive(true);
+            //_redGem.gameObject.SetActive(true);
             _redOutline.gameObject.SetActive(true);
-            _currentGem = _redGem;
+            _currentGem = Instantiate(_redGem, redGemSpawn.position, Quaternion.identity);
             GameState.Instance.gemType = GemType.Red;
             break;
          case 1:
-            _blueGem.gameObject.SetActive(true);
+            //_blueGem.gameObject.SetActive(true);
             _blueOutline.gameObject.SetActive(true);
-            _currentGem = _blueGem;
+            _currentGem = Instantiate(_blueGem, blueGemSpawn.position, Quaternion.identity);
             GameState.Instance.gemType = GemType.Blue;
             break;
          case 2:
-            _greenGem.gameObject.SetActive(true);
+            //_greenGem.gameObject.SetActive(true);
             _greenOutline.gameObject.SetActive(true);
-            _currentGem = _greenGem;
+            _currentGem = Instantiate(_greenGem, greenGemSpawn.position, Quaternion.identity);
             GameState.Instance.gemType = GemType.Green;
             break;
          default:
-            _redGem.gameObject.SetActive(true);
+            //_redGem.gameObject.SetActive(true);
             _redOutline.gameObject.SetActive(true);
-            _currentGem = _redGem;
+            _currentGem = Instantiate(_redGem, redGemSpawn.position, Quaternion.identity);
             GameState.Instance.gemType = GemType.Red;
             break;
       }
