@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -7,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class CraftUIController : MonoBehaviour
 {
+    public CustomerContrller customerController;
+    
     [SerializeField] private RectTransform _rewardPanel;
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private Transform _cameraCraftPos;
@@ -127,6 +128,7 @@ public class CraftUIController : MonoBehaviour
 
     private void SellItem()
     {
+        GameState.Instance.state = State.Default;
         int random = Random.Range(0, 3);
         switch (random)
         {
@@ -172,7 +174,11 @@ public class CraftUIController : MonoBehaviour
     public void CloseCraftPanel()
     {
         _rewardPanel.DOScale(Vector3.zero, 0.5f)
-            .SetEase(Ease.InOutBack);
+            .SetEase(Ease.InOutBack)
+            .OnComplete((() =>
+            {
+                customerController.SellItem();
+            }));
     }
 
     public void SetImageToCraftNext()

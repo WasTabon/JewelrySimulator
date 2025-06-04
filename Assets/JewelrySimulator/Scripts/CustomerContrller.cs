@@ -186,6 +186,24 @@ public class CustomerContrller : MonoBehaviour
          GameState.Instance.state = State.Clean;
       }));
    }
+
+   public void SellItem()
+   {
+      _canvas.DOScale(Vector3.zero, 0.5f)
+         .SetEase(Ease.InOutBack)
+         .OnComplete((() =>
+         {
+            _activeCustomer.transform.DORotate(new Vector3(0, 0, 0), 0f);
+      
+            _activeCustomer.transform.DOMove(_endPos.position, 3f)
+               .SetEase(Ease.InOutSine)
+               .OnComplete(() =>
+               {
+                  _activeCustomer.gameObject.SetActive(false);
+                  _activeCustomer = null;
+               });
+         }));
+   }
    
    private T FindChildByTag<T>(Transform parent, string tag) where T : Component
    {

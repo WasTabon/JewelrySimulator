@@ -2732,6 +2732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9610724eaf967644a7ce41b1a307212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customerController: {fileID: 331120457}
   _rewardPanel: {fileID: 1908970564}
   _cameraTransform: {fileID: 1301291360}
   _cameraCraftPos: {fileID: 264326612}
@@ -13388,8 +13389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d081dd379a1c85c4b8ad69b6d6b0de8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicButtonIcon: {fileID: 0}
-  _soundButtonIcon: {fileID: 0}
+  _musicButtonIcon: {fileID: 1499279665}
+  _soundButtonIcon: {fileID: 822519411}
   _soundButtonIconOn: {fileID: 0}
   _soundButtonIconOff: {fileID: 0}
   _audioSourceMusic: {fileID: 2078047151}
