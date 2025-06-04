@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class GemCutter : MonoBehaviour
 {
+    public EraseDirt eraseDirt;
+    
     public Transform cameraLavaPos;
     public Material cutMaterial;
     public float pushForce = 2f;
@@ -17,6 +19,8 @@ public class GemCutter : MonoBehaviour
     public GameObject targetShapeMaskBlue;
     public GameObject targetShapeMaskGreen;
 
+    private GameObject _finishedGem;
+    
     private bool _isGood;
     private float _oldSimilar;
     float threshold = 0.4f;
@@ -71,6 +75,7 @@ public class GemCutter : MonoBehaviour
         {
             Debug.Log("Вырезана нужная форма!");
             _isGood = true;
+            _finishedGem = matchingPiece;
             nextLavaButton.DOScale(Vector3.one, 0.5f)
                 .SetEase(Ease.InOutBack);
         }
@@ -90,7 +95,12 @@ public class GemCutter : MonoBehaviour
             .SetEase(Ease.InOutBack);
         Transform cameraTransform = Camera.main.transform;
         cameraTransform.DOMove(cameraLavaPos.position, 1f)
-            .SetEase(Ease.InOutSine);
+            .SetEase(Ease.InOutSine)
+            .OnComplete((() =>
+            {
+                eraseDirt.ResetEraseMask();
+                _finishedGem.SetActive(false);
+            }));
     }
     
    private void SetupPiece(GameObject piece, Vector3 forceDir, bool isSmall = false)

@@ -50,6 +50,8 @@ public class CustomerContrller : MonoBehaviour
    [SerializeField] private Transform _spawnPos;
    [SerializeField] private Transform _centerPos;
    [SerializeField] private Transform _endPos;
+
+   public ClothFollower clothFollower;
    
    public Transform redGemSpawn;
    public Transform blueGemSpawn;
@@ -132,25 +134,33 @@ public class CustomerContrller : MonoBehaviour
          case 0:
             //_redGem.gameObject.SetActive(true);
             _redOutline.gameObject.SetActive(true);
-            _currentGem = Instantiate(_redGem, redGemSpawn.position, Quaternion.identity);
+            _currentGem = Instantiate(_redGem, redGemSpawn.position, _redGem.transform.rotation);
+            _currentGem.SetActive(true);
+            clothFollower.crystalObjectRed = _currentGem.transform;
             GameState.Instance.gemType = GemType.Red;
             break;
          case 1:
             //_blueGem.gameObject.SetActive(true);
             _blueOutline.gameObject.SetActive(true);
-            _currentGem = Instantiate(_blueGem, blueGemSpawn.position, Quaternion.identity);
+            _currentGem = Instantiate(_blueGem, blueGemSpawn.position, _blueGem.transform.rotation);
+            _currentGem.SetActive(true);
+            clothFollower.crystalObjectBlue = _currentGem.transform;
             GameState.Instance.gemType = GemType.Blue;
             break;
          case 2:
             //_greenGem.gameObject.SetActive(true);
             _greenOutline.gameObject.SetActive(true);
-            _currentGem = Instantiate(_greenGem, greenGemSpawn.position, Quaternion.identity);
+            _currentGem = Instantiate(_greenGem, greenGemSpawn.position, _greenGem.transform.rotation);
+            _currentGem.SetActive(true);
+            clothFollower.crystalObjectGreen = _currentGem.transform;
             GameState.Instance.gemType = GemType.Green;
             break;
          default:
             //_redGem.gameObject.SetActive(true);
             _redOutline.gameObject.SetActive(true);
-            _currentGem = Instantiate(_redGem, redGemSpawn.position, Quaternion.identity);
+            _currentGem = Instantiate(_redGem, redGemSpawn.position, _redGem.transform.rotation);
+            _currentGem.SetActive(true);
+            clothFollower.crystalObjectRed = _currentGem.transform;
             GameState.Instance.gemType = GemType.Red;
             break;
       }
@@ -197,14 +207,17 @@ public class CustomerContrller : MonoBehaviour
          .SetEase(Ease.InOutBack)
          .OnComplete((() =>
          {
-            _activeCustomer.transform.DORotate(new Vector3(0, 0, 0), 0f);
-      
-            _activeCustomer.transform.DOMove(_endPos.position, 3f)
+            _activeCustomer.transform.DORotate(new Vector3(0, 90, 0), 1f)
                .SetEase(Ease.InOutSine)
                .OnComplete(() =>
                {
-                  _activeCustomer.gameObject.SetActive(false);
-                  _activeCustomer = null;
+                  _activeCustomer.transform.DOMove(_endPos.position, 3f)
+                     .SetEase(Ease.InOutSine)
+                     .OnComplete(() =>
+                     {
+                        _activeCustomer.gameObject.SetActive(false);
+                        _activeCustomer = null;
+                     });
                });
          }));
    }

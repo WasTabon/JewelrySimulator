@@ -78,6 +78,7 @@ public class LavaController : MonoBehaviour
             .OnComplete((() =>
             {
                 _lavaAnimator.SetTrigger("OnLava");
+                ResetLava();
                 Invoke("ShowCreate", 5f);
             }));
     }

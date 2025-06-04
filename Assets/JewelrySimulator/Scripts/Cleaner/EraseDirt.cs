@@ -54,6 +54,13 @@ public class EraseDirt : MonoBehaviour
         GameState.Instance.state = State.Cut;
     }
     
+    public void ResetEraseMask()
+    {
+        RenderTexture.active = maskTexture;
+        GL.Clear(true, true, Color.white);
+        RenderTexture.active = null;
+    }
+    
     private void DrawAtUV(Vector2 uv)
     {
         RenderTexture.active = maskTexture;

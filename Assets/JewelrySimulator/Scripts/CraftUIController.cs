@@ -165,6 +165,8 @@ public class CraftUIController : MonoBehaviour
                         .SetEase(Ease.InOutBack)
                         .OnComplete((() =>
                         {
+                            _spawned.SetActive(false);
+                            _spawned = null;
                             GameState.Instance.AddMoney(50);
                         }));
                 }));

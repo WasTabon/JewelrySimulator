@@ -19,7 +19,7 @@ public class ClothFollower : MonoBehaviour
         defaultPosition = targetObject.position;
         defaultRotation = targetObject.rotation;
     }
-
+    
     private void Update()
     {
         if (GameState.Instance.state != State.Clean)
