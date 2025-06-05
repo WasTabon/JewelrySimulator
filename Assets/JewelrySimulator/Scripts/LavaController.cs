@@ -56,6 +56,7 @@ public class LavaController : MonoBehaviour
 
     private void HandleLavaMovement()
     {
+        MusicController.Instance.PlayClickSound();
         Debug.Log("Hadnle movement");
         _lava.DOLocalMoveY(0.09f, 1f)
             .SetEase(Ease.OutQuad)

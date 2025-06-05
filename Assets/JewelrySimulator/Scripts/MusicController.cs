@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MusicController : MonoBehaviour
 {
+    public static MusicController Instance;
+    
     [SerializeField] private Image _musicButtonIcon;
     [SerializeField] private Image _soundButtonIcon;
 
@@ -14,8 +17,13 @@ public class MusicController : MonoBehaviour
 
     [SerializeField] private AudioClip _uiClickSound;
 
-    private bool _isMusicOn;
-    private bool _isSoundOn;
+    private bool _isMusicOn = true;
+    private bool _isSoundOn = true;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void PlayClickSound()
     {

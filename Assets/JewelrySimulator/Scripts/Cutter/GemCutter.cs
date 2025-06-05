@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class GemCutter : MonoBehaviour
 {
+    public AudioClip cutSound;
+    
     public EraseDirt eraseDirt;
     
     public Transform cameraLavaPos;
@@ -32,6 +34,8 @@ public class GemCutter : MonoBehaviour
 
     public void Cut(GameObject gem, Vector3 point, Vector3 normal)
     {
+        MusicController.Instance.PlaySpecificSound(cutSound);
+        
         if (GameState.Instance.gemType == GemType.Red)
         {
             targetShapeMask = targetShapeMaskRed;
