@@ -25,16 +25,31 @@ public class EraseDirt : MonoBehaviour
         if (GameState.Instance.state != State.Clean)
             return;
     
-        if (Input.GetMouseButton(0))
+        bool inputHeld = false;
+        Vector2 inputPos = Vector2.zero;
+    
+    #if UNITY_EDITOR || UNITY_STANDALONE
+        inputHeld = Input.GetMouseButton(0);
+        inputPos = Input.mousePosition;
+    #else
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            inputHeld = touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary;
+            inputPos = touch.position;
+        }
+    #endif
+    
+        if (inputHeld)
         {
             if (!_hasScaledNextButton)
             {
-                 _hasScaledNextButton = true;
+                _hasScaledNextButton = true;
                 _nextButton.DOScale(Vector3.one, 0.5f)
                     .SetEase(Ease.InOutBack);
             }
     
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            Ray ray = cam.ScreenPointToRay(inputPos);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Vector2 uv = hit.textureCoord;
