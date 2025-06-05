@@ -44,7 +44,7 @@ public class MusicController : MonoBehaviour
     }
     public void HandleSoundOn()
     {
-        if (_isMusicOn)
+        if (_isSoundOn)
         {
             _isSoundOn = false;
             _audioSourceSound.mute = true;
