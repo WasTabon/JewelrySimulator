@@ -34,6 +34,13 @@ public class MusicController : MonoBehaviour
     {
         _audioSourceSound.PlayOneShot(audioClip);
     }
+    public void PlaySpecificSound(AudioClip audioClip, float pitch)
+    {
+        float tempPitch = _audioSourceSound.pitch;
+        _audioSourceSound.pitch = pitch;
+        _audioSourceSound.PlayOneShot(audioClip);
+        _audioSourceSound.pitch = tempPitch;
+    }
 
     public void HandleMusicOn()
     {

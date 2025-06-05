@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class EraseDirt : MonoBehaviour
 {
+    [SerializeField] private AudioClip _cleanSoundClip;
+
+    private float _soundCooldown = 0.5f;
+    private float _soundTimer = 0f;
+    
     [SerializeField] private RectTransform _nextButton;
     
     public Camera cam;
@@ -40,6 +45,8 @@ public class EraseDirt : MonoBehaviour
         }
     #endif
     
+        _soundTimer -= Time.deltaTime;
+        
         if (inputHeld)
         {
             if (!_hasScaledNextButton)
@@ -54,6 +61,12 @@ public class EraseDirt : MonoBehaviour
             {
                 Vector2 uv = hit.textureCoord;
                 DrawAtUV(uv);
+                if (_soundTimer <= 0f)
+                {
+                    float randomPitch = Random.Range(0.85f, 1.2f);
+                    MusicController.Instance.PlaySpecificSound(_cleanSoundClip, randomPitch);
+                    _soundTimer = _soundCooldown;
+                }
             }
         }
         else

@@ -4745,6 +4745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc7ebbbdc336cb4aa7d366eb1ce2eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cleanSoundClip: {fileID: 8300000, guid: ffd0ec3e7f84b624aaf1573a7dcf4696, type: 3}
   _nextButton: {fileID: 670636570}
   cam: {fileID: 1301291359}
   maskTexture: {fileID: 8400000, guid: 67dcfd679063c184792fb80703b7eac4, type: 2}
@@ -13305,7 +13306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1730764415
 RectTransform:
   m_ObjectHideFlags: 0
