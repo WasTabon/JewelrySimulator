@@ -41,13 +41,13 @@ public class MusicController : MonoBehaviour
         {
             _isMusicOn = false;
             _audioSourceMusic.mute = true;
-            _musicButtonIcon.sprite = _soundButtonIconOn;
+            _musicButtonIcon.sprite = _soundButtonIconOff;
         }
         else
         {
             _isMusicOn = true;
             _audioSourceMusic.mute = false;
-            _musicButtonIcon.sprite = _soundButtonIconOff;
+            _musicButtonIcon.sprite = _soundButtonIconOn;
         }
     }
     public void HandleSoundOn()
@@ -56,13 +56,13 @@ public class MusicController : MonoBehaviour
         {
             _isSoundOn = false;
             _audioSourceSound.mute = true;
-            _soundButtonIcon.sprite = _soundButtonIconOn;
+            _soundButtonIcon.sprite = _soundButtonIconOff;
         }
         else
         {
             _isSoundOn = true;
             _audioSourceSound.mute = false;
-            _soundButtonIcon.sprite = _soundButtonIconOff;
+            _soundButtonIcon.sprite = _soundButtonIconOn;
         }
     }
 }
