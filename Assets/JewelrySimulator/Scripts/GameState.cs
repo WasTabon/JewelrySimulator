@@ -8,7 +8,6 @@ public enum State
     Cut,
     Lava,
     Form,
-    Tutorial
 }
 
 public enum GemType

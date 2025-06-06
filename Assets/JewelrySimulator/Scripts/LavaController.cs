@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class LavaController : MonoBehaviour
 {
+    public GameObject tutorialPanel;
+    private int wasTutorial;
+    
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private Transform _cameraPosForm;
     [SerializeField] private Transform _lava;
@@ -14,12 +17,22 @@ public class LavaController : MonoBehaviour
     {
         _nextButtonForm.DOScale(Vector3.zero, 0f);
         ResetLava();
+        
+        wasTutorial = PlayerPrefs.GetInt("lava", 0);
     }
 
     private void Update()
     {
         if (GameState.Instance.state != State.Lava)
             return;
+        
+        if (wasTutorial == 0)
+        {
+            wasTutorial = 1;
+            PlayerPrefs.SetInt("lava", 1);
+            PlayerPrefs.Save();
+            tutorialPanel.SetActive(true);
+        }
         
         if (Input.GetMouseButtonDown(0))
         {

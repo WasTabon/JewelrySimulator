@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EraseDirt : MonoBehaviour
 {
+    public GameObject tutorialPanel;
+    
     [SerializeField] private AudioClip _cleanSoundClip;
 
     private float _soundCooldown = 0.5f;
@@ -15,6 +17,8 @@ public class EraseDirt : MonoBehaviour
     public Material eraseMaterial;
     public float brushSize = 0.1f;
 
+    private int wasTutorial;
+    
     private bool _hasScaledNextButton = false;
     
     private void Start()
@@ -23,12 +27,22 @@ public class EraseDirt : MonoBehaviour
         RenderTexture.active = maskTexture;
         GL.Clear(true, true, Color.white);
         RenderTexture.active = null;
+
+        wasTutorial = PlayerPrefs.GetInt("clean", 0);
     }
    
     private void Update()
     {
         if (GameState.Instance.state != State.Clean)
             return;
+
+        if (wasTutorial == 0)
+        {
+            wasTutorial = 1;
+            PlayerPrefs.SetInt("clean", 1);
+            PlayerPrefs.Save();
+            tutorialPanel.SetActive(true);
+        }
     
         bool inputHeld = false;
         Vector2 inputPos = Vector2.zero;

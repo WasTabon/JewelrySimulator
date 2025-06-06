@@ -3,6 +3,9 @@ using DG.Tweening;
 
 public class SwipeCutter : MonoBehaviour
 {
+    public GameObject tutorialPanel;
+    private int wasTutorial;
+    
     public RectTransform swipeLine;
     public Canvas canvas;
     public GemCutter cutter;
@@ -16,6 +19,8 @@ public class SwipeCutter : MonoBehaviour
     {
         swipeGroup = swipeLine.GetComponent<CanvasGroup>();
         swipeLine.gameObject.SetActive(false);
+        
+        wasTutorial = PlayerPrefs.GetInt("cut", 0);
     }
     
 void Update()
@@ -23,6 +28,14 @@ void Update()
     if (GameState.Instance.state != State.Cut)
         return;
 
+    if (wasTutorial == 0)
+    {
+        wasTutorial = 1;
+        PlayerPrefs.SetInt("cut", 1);
+        PlayerPrefs.Save();
+        tutorialPanel.SetActive(true);
+    }
+    
     // Временная проверка на ПК (Space для тестов)
     if (Input.GetKeyDown(KeyCode.Space))
     {
