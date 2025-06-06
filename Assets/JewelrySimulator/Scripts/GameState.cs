@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +7,8 @@ public enum State
     Clean,
     Cut,
     Lava,
-    Form
+    Form,
+    Tutorial
 }
 
 public enum GemType

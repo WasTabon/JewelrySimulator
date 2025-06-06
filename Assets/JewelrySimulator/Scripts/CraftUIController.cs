@@ -7,6 +7,9 @@ using Random = UnityEngine.Random;
 public class CraftUIController : MonoBehaviour
 {
     public CustomerContrller customerController;
+
+    public AudioClip spawnSound;
+    public AudioClip rewardSound;
     
     [SerializeField] private RectTransform _rewardPanel;
     [SerializeField] private Transform _cameraTransform;
@@ -105,21 +108,25 @@ public class CraftUIController : MonoBehaviour
                     if (_resultCrown.gameObject.activeSelf)
                     {
                         _spawned = Instantiate(_crown, _spawnPos.position, Quaternion.identity);
+                        MusicController.Instance.PlaySpecificSound(spawnSound);
                         Invoke("SellItem", 0.5f);
                     }
                     else if (_resultPendant.gameObject.activeSelf)
                     {
                         _spawned = Instantiate(_pendant, _spawnPos.position, Quaternion.identity);
+                        MusicController.Instance.PlaySpecificSound(spawnSound);
                         Invoke("SellItem", 0.5f);
                     }
                     else if (_resultRing.gameObject.activeSelf)
                     {
                         _spawned = Instantiate(_ring, _spawnPos.position, Quaternion.identity);
+                        MusicController.Instance.PlaySpecificSound(spawnSound);
                         Invoke("SellItem", 0.5f);
                     }
                     else
                     {
                         _spawned = Instantiate(_crown, _spawnPos.position, Quaternion.identity);
+                        MusicController.Instance.PlaySpecificSound(spawnSound);
                         Invoke("SellItem", 0.5f);
                     }
                 });
@@ -165,6 +172,7 @@ public class CraftUIController : MonoBehaviour
                         .SetEase(Ease.InOutBack)
                         .OnComplete((() =>
                         {
+                            MusicController.Instance.PlaySpecificSound(rewardSound);
                             _spawned.SetActive(false);
                             _spawned = null;
                             GameState.Instance.AddMoney(50);
