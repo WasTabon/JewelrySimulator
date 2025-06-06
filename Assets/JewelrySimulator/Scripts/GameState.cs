@@ -21,6 +21,8 @@ public class GameState : MonoBehaviour
 {
     public static GameState Instance;
 
+    public GameObject notEnoughMoneyPanel;
+    
     public int money;
     public int level = 1;
     
@@ -56,6 +58,10 @@ public class GameState : MonoBehaviour
             PlayerPrefs.SetInt("money", money);
             PlayerPrefs.SetInt("level", money);
             PlayerPrefs.Save();
+        }
+        else
+        {
+            notEnoughMoneyPanel.SetActive(true);
         }
     }
 
