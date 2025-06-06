@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Extension;
 
 public enum State
 {
@@ -21,6 +23,10 @@ public class GameState : MonoBehaviour
 {
     public static GameState Instance;
 
+    public GameObject loadingButton;
+    public AudioClip buySound;
+    public TextMeshProUGUI buttonText;
+    
     public GameObject notEnoughMoneyPanel;
     
     public int money;
@@ -76,5 +82,32 @@ public class GameState : MonoBehaviour
     {
         money = PlayerPrefs.GetInt("money", 0);
         level = PlayerPrefs.GetInt("level", 0);
+    }
+    
+    public void OnPurchaseComlete(Product product)
+    {
+        if (product.definition.id == "com.coinspack.main")
+        {
+            Debug.Log("Complete");
+            money += 100;
+            PlayerPrefs.SetInt("money", money);
+            PlayerPrefs.Save();
+            MusicController.Instance.PlaySpecificSound(buySound);
+            loadingButton.SetActive(false);
+        }
+    }
+    public void OnPurchaseFailed(Product product, PurchaseFailureDescription description)
+    {
+        if (product.definition.id == "com.coinspack.main")
+        {
+            loadingButton.SetActive(false);
+            Debug.Log($"Failed: {description.message}");
+        }
+    }
+    
+    public void OnProductFetched(Product product)
+    {
+        Debug.Log("Fetched");
+        buttonText.text = product.metadata.localizedPriceString;
     }
 }
